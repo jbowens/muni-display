@@ -1,0 +1,118 @@
+<RTT>
+<AgencyList>
+<Agency Name="SF-MUNI" HasDirection="True" Mode="Bus">
+<RouteList>
+<Route Name="N-Judah" Code="N">
+<RouteDirectionList>
+<RouteDirection Code="Inbound" Name="Inbound to Caltrain via Downtown">
+<StopList>
+<Stop name="9th Ave and Irving St" StopCode="13212">
+</Stop>
+
+<Stop name="Carl St and Cole St" StopCode="13911">
+</Stop>
+
+<Stop name="Carl St and Hillway Ave" StopCode="13913">
+</Stop>
+
+<Stop name="Carl St and Stanyan St" StopCode="13915">
+</Stop>
+
+<Stop name="Duboce Ave and Church St" StopCode="14448">
+</Stop>
+
+<Stop name="The Embarcadero and Brannan St" StopCode="14506">
+</Stop>
+
+<Stop name="The Embarcadero and Folsom St" StopCode="14509">
+</Stop>
+
+<Stop name="Irving St and 4th Ave" StopCode="15120">
+</Stop>
+
+<Stop name="Irving St and 7th Ave" StopCode="15122">
+</Stop>
+
+<Stop name="Irving St and Arguello Blvd" StopCode="15124">
+</Stop>
+
+<Stop name="Judah St and 9th Ave" StopCode="15194">
+</Stop>
+
+<Stop name="Judah St and 12th Ave" StopCode="15196">
+</Stop>
+
+<Stop name="Judah St and 15th Ave" StopCode="15197">
+</Stop>
+
+<Stop name="Judah St and 19th Ave" StopCode="15200">
+</Stop>
+
+<Stop name="Judah St and 22nd Ave" StopCode="15201">
+</Stop>
+
+<Stop name="Judah St and 25th Ave" StopCode="15204">
+</Stop>
+
+<Stop name="Judah St and 28th Ave" StopCode="15206">
+</Stop>
+
+<Stop name="Judah St and 31st Ave" StopCode="15208">
+</Stop>
+
+<Stop name="Judah St and 34th Ave" StopCode="15210">
+</Stop>
+
+<Stop name="Judah St and 40th Ave" StopCode="15212">
+</Stop>
+
+<Stop name="Judah St and 43rd Ave" StopCode="15214">
+</Stop>
+
+<Stop name="Judah St and 46th Ave" StopCode="15216">
+</Stop>
+
+<Stop name="Judah St and Funston Ave" StopCode="15220">
+</Stop>
+
+<Stop name="Judah St and La Playa St" StopCode="15223">
+</Stop>
+
+<Stop name="Judah St and Sunset Blvd" StopCode="15225">
+</Stop>
+
+<Stop name="King St and 2nd St" StopCode="15234">
+</Stop>
+
+<Stop name="King St and 4th St" StopCode="15239">
+</Stop>
+
+<Stop name="Powell Station Inbound" StopCode="15417">
+</Stop>
+
+<Stop name="Van Ness Station Inbound" StopCode="15419">
+</Stop>
+
+<Stop name="Civic Center Station Inbound" StopCode="15727">
+</Stop>
+
+<Stop name="Montgomery Station Inbound" StopCode="15731">
+</Stop>
+
+<Stop name="Embarcadero Station Inbound" StopCode="16992">
+</Stop>
+
+<Stop name="Sunset Tunnel East Portal" StopCode="17318">
+</Stop>
+
+</StopList>
+</RouteDirection>
+
+</RouteDirectionList>
+</Route>
+
+</RouteList>
+</Agency>
+
+</AgencyList>
+</RTT>
