@@ -11,10 +11,10 @@ type Predictor interface {
 // Prediction encapsulates information about a predicted muni departure from
 // a stop.
 type Prediction struct {
-	CreatedAt time.Time
-	Minutes   int
-	Stop      *Stop
-	Source    string
+	CreatedAt time.Time `json:"created_at"`
+	Minutes   int       `json:"minutes"`
+	Stop      *Stop     `json:"stop"`
+	Source    string    `json:"source"`
 }
 
 // Stop represents a public-transit stop and the information required to query

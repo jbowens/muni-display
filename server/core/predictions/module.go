@@ -87,7 +87,7 @@ func (m *Module) Current(stop string) []Prediction {
 	return m.latestPredictions[stop]
 }
 
-func (m *Module) lastUpdated() time.Time {
+func (m *Module) LastUpdated() time.Time {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	return m.lastUpdatedTimestamp
@@ -122,7 +122,7 @@ func (m *Module) refreshPredictionsForStop(key string, stop *Stop) error {
 // predictions.
 func (m *Module) updatePeriodically() {
 	for _ = range m.ticker.C {
-		shouldUpdate := defaultPredicate(time.Now(), m.lastUpdated(), m)
+		shouldUpdate := defaultPredicate(time.Now(), m.LastUpdated(), m)
 		if shouldUpdate != nil && *shouldUpdate {
 			if err := m.refreshPredictions(); err != nil {
 				fmt.Fprintf(os.Stderr, "Error refreshing: %s\n", err.Error())

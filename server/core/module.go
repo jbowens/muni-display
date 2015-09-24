@@ -3,20 +3,20 @@ package core
 import (
 	"fmt"
 
-	"github.com/jbowens/muni/server/core/predictions"
+	"github.com/jbowens/muni/server/core/http"
 	"github.com/octavore/naga/service"
 )
 
 // Module implements naga/service.Module and encapsulates the entire muni
 // application server
 type Module struct {
-	Predictions *predictions.Module
+	HTTP *http.Module
 }
 
 func (m *Module) Init(c *service.Config) {
-	c.Start = m.Start
+	c.Start = m.start
 }
 
-func (m *Module) Start() {
+func (m *Module) start() {
 	fmt.Println("Starting app...")
 }
