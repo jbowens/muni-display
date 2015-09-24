@@ -11,7 +11,7 @@ import (
 	"github.com/jbowens/muni/server/core/predictions"
 )
 
-type handlePredictionsResponse struct {
+type HandlePredictionsResponse struct {
 	LastRefresh time.Time                `json:"last_refresh"`
 	Predictions []predictions.Prediction `json:"predictions"`
 }
@@ -26,7 +26,7 @@ func (m *Module) handlePredictions(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	m.writeJSON(rw, handlePredictionsResponse{
+	m.writeJSON(rw, HandlePredictionsResponse{
 		LastRefresh: lastRefreshed,
 		Predictions: predictions,
 	})
