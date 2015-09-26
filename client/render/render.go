@@ -26,6 +26,7 @@ const (
 	nextNextTrainFontSize    = 144
 	lastUpdatedAtFontSize    = 12
 	informationPopupFontSize = 100
+	transitRouteNameFontSize = 36
 )
 
 var (
@@ -44,20 +45,32 @@ type Display struct {
 	NextTrainMinutes     int
 	NextNextTrainMinutes int
 	UpdatedSecondsAgo    int
+	TransitRouteName     string
 }
 
 func (m *Module) Display(display Display, sz size.Event, glctx gl.Context, images *glutil.Images) {
 	im := images.NewImage(sz.WidthPx, sz.HeightPx)
 
-	if m.err != nil {
+	switch {
+	case m.err != nil:
 		// There was an error of some kind. We should display the error indication until the error
 		// is removed from the module by a timeout.
 		m.renderInformation(im.RGBA, sz.Size(), errorBackground, "T_T", "T_T")
-	} else if display.Loaded {
-		m.render(im.RGBA, display, sz.Size())
-	} else {
+	case !display.Loaded:
+		// We haven't loaded any predictions yet. Dislay the loading screen.
 		loadingStr := "Loading" + strings.Repeat(".", int(time.Now().Unix()%4))
 		m.renderInformation(im.RGBA, sz.Size(), loadingBackground, loadingStr, "Loading...")
+	case !display.NextOK:
+		// We don't have a prediction for the next train. This is probably because there are no
+		// trains coming for a while (ex., after nightly shutdown).
+		m.renderInformation(im.RGBA, sz.Size(), loadingBackground, "No trains :(", "No trains :(")
+	default:
+		// If everything else is ok, then we have at least 1 prediction. Display it.
+		m.render(im.RGBA, display, sz.Size())
+	}
+
+	if display.TransitRouteName != "" {
+		m.renderTransitRouteName(im.RGBA, sz.Size(), display.TransitRouteName)
 	}
 
 	im.Upload()
@@ -98,27 +111,29 @@ func (m *Module) render(rgba *image.RGBA, display Display, dimensions image.Poin
 	})
 
 	// Now, render the next next train's minutes on the right half of the screen.
-	d = &font.Drawer{
-		Dst: rgba,
-		Src: foreground,
-		Face: truetype.NewFace(m.font, &truetype.Options{
-			Size:    nextNextTrainFontSize,
-			DPI:     dpi,
-			Hinting: font.HintingNone,
-		}),
-	}
-	textWidth = d.MeasureString(strconv.Itoa(display.NextNextTrainMinutes))
-	d.Dot = fixed.Point26_6{
-		X: fixed.I(3*dimensions.X/4) - (textWidth / 2),
-		Y: fixed.I(int(2 * dimensions.Y / 3)),
-	}
-	d.DrawString(strconv.Itoa(display.NextNextTrainMinutes))
+	if display.NextNextOK {
+		d = &font.Drawer{
+			Dst: rgba,
+			Src: foreground,
+			Face: truetype.NewFace(m.font, &truetype.Options{
+				Size:    nextNextTrainFontSize,
+				DPI:     dpi,
+				Hinting: font.HintingNone,
+			}),
+		}
+		textWidth = d.MeasureString(strconv.Itoa(display.NextNextTrainMinutes))
+		d.Dot = fixed.Point26_6{
+			X: fixed.I(3*dimensions.X/4) - (textWidth / 2),
+			Y: fixed.I(int(2 * dimensions.Y / 3)),
+		}
+		d.DrawString(strconv.Itoa(display.NextNextTrainMinutes))
 
-	// Render the little "min" label next to the next, next train time.
-	m.renderMin(rgba, fixed.Point26_6{
-		X: d.Dot.X,
-		Y: d.Dot.Y,
-	})
+		// Render the little "min" label next to the next, next train time.
+		m.renderMin(rgba, fixed.Point26_6{
+			X: d.Dot.X,
+			Y: d.Dot.Y,
+		})
+	}
 
 	// Render the text indicating the freshness of the presented data.
 	d = &font.Drawer{
@@ -172,6 +187,27 @@ func (m *Module) renderInformation(rgba *image.RGBA, dimensions image.Point, bac
 	d.Dot = fixed.Point26_6{
 		X: fixed.I(dimensions.X/2) - (textWidth / 2),
 		Y: fixed.I(dimensions.Y/2 + dy/2),
+	}
+	d.DrawString(text)
+}
+
+// renderTransitRouteName will render the name of the route in the top left corner.
+func (m *Module) renderTransitRouteName(rgba *image.RGBA, dimensions image.Point, text string) {
+	d := &font.Drawer{
+		Dst: rgba,
+		Src: foreground,
+		Face: truetype.NewFace(m.font, &truetype.Options{
+			Size:    transitRouteNameFontSize,
+			DPI:     dpi,
+			Hinting: font.HintingNone,
+		}),
+	}
+	dy := int(math.Ceil(transitRouteNameFontSize * dpi / 72))
+	// I can't figure out how to get rid of the annoying notification bar. For now, the Y offset here
+	// needs to include the height of the notification bar which is 48dp ~= 0.3in.
+	d.Dot = fixed.Point26_6{
+		X: fixed.I(5),
+		Y: fixed.I(int(math.Ceil(0.3*float64(dpi))) + dy),
 	}
 	d.DrawString(text)
 }

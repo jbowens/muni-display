@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/jbowens/muni/client/network"
@@ -43,6 +44,7 @@ func (m *Module) draw(glctx gl.Context, sz size.Event, images *glutil.Images) {
 	if len(serverResponse.Predictions) > 0 {
 		display.NextOK = true
 		display.NextTrainMinutes = serverResponse.Predictions[0].Minutes
+		display.TransitRouteName = fmt.Sprintf("%s (%s)", serverResponse.Stop.Route, serverResponse.Stop.Direction)
 		if len(serverResponse.Predictions) > 1 {
 			display.NextNextOK = true
 			display.NextNextTrainMinutes = serverResponse.Predictions[1].Minutes
