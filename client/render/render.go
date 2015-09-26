@@ -45,6 +45,7 @@ type Display struct {
 	NextTrainMinutes     int
 	NextNextTrainMinutes int
 	UpdatedSecondsAgo    int
+	PredictionSource     string
 	TransitRouteName     string
 }
 
@@ -145,7 +146,7 @@ func (m *Module) render(rgba *image.RGBA, display Display, dimensions image.Poin
 			Hinting: font.HintingNone,
 		}),
 	}
-	updatedAt := fmt.Sprintf("Predictions from %v seconds ago.", display.UpdatedSecondsAgo)
+	updatedAt := fmt.Sprintf("Predictions accurate as of %v seconds ago, from %s.", display.UpdatedSecondsAgo, display.PredictionSource)
 	textWidth = d.MeasureString(updatedAt)
 	d.Dot = fixed.Point26_6{
 		X: fixed.I(dimensions.X-10) - textWidth,

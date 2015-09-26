@@ -50,6 +50,7 @@ func (m *Module) draw(glctx gl.Context, sz size.Event, images *glutil.Images) {
 			display.NextNextTrainMinutes = serverResponse.Predictions[1].Minutes
 		}
 		display.UpdatedSecondsAgo = int(time.Now().Sub(serverResponse.LastRefresh).Seconds())
+		display.PredictionSource = serverResponse.Predictions[0].Source
 	}
 	m.Render.Display(display, sz, glctx, images)
 }
