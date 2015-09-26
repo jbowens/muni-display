@@ -22,7 +22,7 @@ import (
 const (
 	dpi                      = 72
 	minsFontSize             = 36
-	nextTrainFontSize        = 350
+	nextTrainFontSize        = 400
 	nextNextTrainFontSize    = 144
 	lastUpdatedAtFontSize    = 12
 	informationPopupFontSize = 100
