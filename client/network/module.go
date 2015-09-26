@@ -7,6 +7,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/jbowens/muni/client/render"
 	server "github.com/jbowens/muni/server/core/http"
 	"github.com/octavore/naga/service"
 )
@@ -18,13 +19,16 @@ const (
 )
 
 type Module struct {
+	Render *render.Module
+
 	mu             sync.Mutex
 	ticker         *time.Ticker
 	serverResponse server.HandlePredictionsResponse
+	updated        chan struct{}
 }
 
 func (m *Module) Init(c *service.Config) {
-	c.Start = m.start
+	c.Setup = m.setup
 }
 
 func (m *Module) Response() (resp server.HandlePredictionsResponse) {
@@ -34,36 +38,50 @@ func (m *Module) Response() (resp server.HandlePredictionsResponse) {
 	return resp
 }
 
-func (m *Module) start() {
+func (m *Module) Updated() <-chan struct{} {
+	return m.updated
+}
+
+func (m *Module) Update() {
+	m.update()
+}
+
+func (m *Module) setup() error {
+	m.updated = make(chan struct{}, 1)
 	m.ticker = time.NewTicker(pollingInterval)
 	go m.poll()
+	return nil
 }
 
 func (m *Module) poll() {
 	for _ = range m.ticker.C {
-		if err := m.update(); err != nil {
-			// TODO(jackson): Fix this to display the error on the screen.
-			panic(err)
-		}
+		m.update()
 	}
 }
 
-func (m *Module) update() error {
+func (m *Module) update() {
 	resp, err := http.DefaultClient.Get(serverURL)
 	if err != nil {
-		return err
+		m.err(err)
+		return
 	}
 	defer resp.Body.Close()
 
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		m.err(err)
+		return
 	}
 
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	if err := json.Unmarshal(b, &m.serverResponse); err != nil {
-		return err
+		m.err(err)
+		return
 	}
-	return nil
+	m.updated <- struct{}{}
+}
+
+func (m *Module) err(err error) {
+	m.Render.DisplayError(err)
 }
