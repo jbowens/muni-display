@@ -72,7 +72,6 @@ func (m *Module) main(a app.App) {
 
 		case <-m.Network.Updated():
 			m.loaded = true
-			a.Send(paint.Event{})
 
 		case e := <-a.Events():
 			switch e := a.Filter(e).(type) {
