@@ -79,6 +79,9 @@ func (m *Module) main(a app.App) {
 				glctx, _ = e.DrawContext.(gl.Context)
 				if glctx != nil {
 					glctx = e.DrawContext.(gl.Context)
+					if images != nil {
+						images.Release()
+					}
 					images = glutil.NewImages(glctx)
 				}
 			case size.Event:
