@@ -24,7 +24,7 @@ const (
 	minsFontSize             = 36
 	nextTrainFontSize        = 350
 	nextNextTrainFontSize    = 144
-	lastUpdatedAtFontSize    = 18
+	lastUpdatedAtFontSize    = 12
 	informationPopupFontSize = 100
 )
 
@@ -130,10 +130,10 @@ func (m *Module) render(rgba *image.RGBA, display Display, dimensions image.Poin
 			Hinting: font.HintingNone,
 		}),
 	}
-	updatedAt := fmt.Sprintf("Predictions from %v seconds ago. ", display.UpdatedSecondsAgo)
+	updatedAt := fmt.Sprintf("Predictions from %v seconds ago.", display.UpdatedSecondsAgo)
 	textWidth = d.MeasureString(updatedAt)
 	d.Dot = fixed.Point26_6{
-		X: fixed.I(dimensions.X) - textWidth,
+		X: fixed.I(dimensions.X-10) - textWidth,
 		Y: fixed.I(dimensions.Y - lastUpdatedAtFontSize),
 	}
 	d.DrawString(updatedAt)
