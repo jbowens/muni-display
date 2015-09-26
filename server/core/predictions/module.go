@@ -79,6 +79,11 @@ func (m *Module) start() {
 	go m.updatePeriodically()
 }
 
+// Stop returns data about the stop with the given key.
+func (m *Module) Stop(stopKey string) Stop {
+	return m.stops[stopKey]
+}
+
 // Current returns all the current route predictions for the given stop.
 func (m *Module) Current(stop string) []Prediction {
 	m.mu.Lock()

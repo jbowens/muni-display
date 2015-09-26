@@ -13,21 +13,25 @@ import (
 
 type HandlePredictionsResponse struct {
 	LastRefresh time.Time                `json:"last_refresh"`
+	Stop        predictions.Stop         `json:"stop"`
 	Predictions []predictions.Prediction `json:"predictions"`
 }
 
 func (m *Module) handlePredictions(rw http.ResponseWriter, req *http.Request) {
-	stopKey := filepath.Base(req.URL.Path)
+	var zeroStop predictions.Stop
 
-	lastRefreshed := m.Predictions.LastUpdated()
-	predictions := m.Predictions.Current(stopKey)
-	if predictions == nil {
+	stopKey := filepath.Base(req.URL.Path)
+	stop := m.Predictions.Stop(stopKey)
+	if stop == zeroStop {
 		rw.WriteHeader(http.StatusNotFound)
 		return
 	}
 
+	lastRefreshed := m.Predictions.LastUpdated()
+	predictions := m.Predictions.Current(stopKey)
 	m.writeJSON(rw, HandlePredictionsResponse{
 		LastRefresh: lastRefreshed,
+		Stop:        stop,
 		Predictions: predictions,
 	})
 }
