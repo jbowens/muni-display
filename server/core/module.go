@@ -3,7 +3,7 @@ package core
 import (
 	"fmt"
 
-	"github.com/jbowens/muni/server/core/http"
+	"github.com/jbowens/muni-display/server/core/http"
 	"github.com/octavore/naga/service"
 )
 

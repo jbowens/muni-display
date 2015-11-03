@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/jbowens/muni/server/core"
+	"github.com/jbowens/muni-display/server/core"
 	"github.com/octavore/naga/service"
 )
 

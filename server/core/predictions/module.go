@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/jbowens/muni/server/core/config"
+	"github.com/jbowens/muni-display/server/core/config"
 	"github.com/octavore/naga/service"
 )
 

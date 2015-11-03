@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/jbowens/muni/server/core/config"
-	"github.com/jbowens/muni/server/core/predictions"
+	"github.com/jbowens/muni-display/server/core/config"
+	"github.com/jbowens/muni-display/server/core/predictions"
 	"github.com/octavore/naga/service"
 )
 

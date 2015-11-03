@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/jbowens/muni/client/network"
-	"github.com/jbowens/muni/client/render"
+	"github.com/jbowens/muni-display/client/network"
+	"github.com/jbowens/muni-display/client/render"
 	"github.com/octavore/naga/service"
 
 	"golang.org/x/mobile/app"

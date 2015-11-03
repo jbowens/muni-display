@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/jbowens/muni/server/core/predictions"
+	"github.com/jbowens/muni-display/server/core/predictions"
 )
 
 type HandlePredictionsResponse struct {

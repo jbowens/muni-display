@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/jbowens/muni/client/render"
-	server "github.com/jbowens/muni/server/core/http"
+	"github.com/jbowens/muni-display/client/render"
+	server "github.com/jbowens/muni-display/server/core/http"
 	"github.com/octavore/naga/service"
 )
 
