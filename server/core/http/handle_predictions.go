@@ -40,7 +40,8 @@ func (m *Module) writeJSON(rw http.ResponseWriter, obj interface{}) {
 	b, err := json.MarshalIndent(obj, "", "  ")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error marshalling: %s\n", err.Error())
-		rw.WriteHeader(http.StatusInternalServerError)
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	rw.Header().Set("Content-Type", "application/json")
